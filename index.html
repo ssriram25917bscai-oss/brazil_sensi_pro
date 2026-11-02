@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAZIL SENSI PRO</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+ box-sizing: border-box;
+}
+
+body {
+ margin: 0;
+ padding: 20px;
+ min-height: 100vh;
+ font-family: 'Rajdhani', sans-serif;
+ color: white;
+ background: #030704;
+ overflow-x: hidden;
+}
+
+/* ALOK LEFT AND HAYATO RIGHT */
+.characters {
+ position: fixed;
+ inset: 0;
+ z-index: 0;
+ pointer-events: none;
+ display: flex;
+ justify-content: space-between;
+ align-items: flex-end;
+}
+
+.characters img {
+ width: 35%;
+ height: 90vh;
+ object-fit: contain;
+ object-position: bottom;
+ opacity: .78;
+ filter: brightness(.72) contrast(1.1);
+}
+
+.characters .alok {
+ object-position: left bottom;
+}
+
+.characters .hayato {
+ object-position: right bottom;
+}
+
+/* DARK OVERLAY */
+body:before {
+ content: "";
+ position: fixed;
+ inset: 0;
+ z-index: 0;
+ pointer-events: none;
+ background: linear-gradient(
+  90deg,
+  rgba(0,0,0,.25),
+  rgba(0,0,0,.65) 35%,
+  rgba(0,0,0,.65) 65%,
+  rgba(0,0,0,.25)
+ );
+}
+
+.app {
+ position: relative;
+ z-index: 2;
+ max-width: 650px;
+ margin: 25px auto;
+ padding: 24px;
+ background: rgba(4,10,6,.88);
+ border: 1px solid #39ff14;
+ border-radius: 20px;
+ box-shadow: 0 0 30px #39ff1430;
+ backdrop-filter: blur(5px);
+}
+
+h1 {
+ font-family: 'Orbitron', sans-serif;
+ color: #39ff14;
+ text-align: center;
+ font-size: clamp(22px,5vw,30px);
+ text-shadow: 0 0 15px #39ff1490;
+ margin: 12px 0;
+}
+
+/* INDIA FLAG COLOURS IN ONE LINE */
+.india-text {
+ text-align: center;
+ font-family: 'Orbitron', sans-serif;
+ font-size: clamp(9px, 2.1vw, 13px);
+ font-weight: 700;
+ white-space: nowrap;
+ background: linear-gradient(
+  to right,
+  #FF9933 0%,
+  #FF9933 33.33%,
+  #FFFFFF 33.33%,
+  #FFFFFF 66.66%,
+  #138808 66.66%,
+  #138808 100%
+ );
+ -webkit-background-clip: text;
+ background-clip: text;
+ color: transparent;
+ margin: 14px 0 20px;
+}
+
+h2 {
+ font-family: 'Orbitron', sans-serif;
+ font-size: 18px;
+ color: #63b3ff;
+}
+
+p {
+ color: #bbb;
+ text-align: center;
+}
+
+label {
+ display: block;
+ margin-top: 12px;
+ color: #a6ff4d;
+ font-size: 16px;
+ font-weight: bold;
+}
+
+/* SHORT INPUT BOXES */
+input, select {
+ width: 100%;
+ height: 42px;
+ padding: 8px 12px;
+ margin-top: 5px;
+ background: #080d09;
+ color: white;
+ border: 1px solid #39ff14;
+ border-radius: 8px;
+ font-family: 'Rajdhani', sans-serif;
+ font-size: 15px;
+ outline: none;
+}
+
+input:focus, select:focus {
+ box-shadow: 0 0 8px #39ff1460;
+}
+
+button {
+ width: 100%;
+ padding: 15px;
+ margin-top: 18px;
+ background: #39ff14;
+ color: black;
+ border: 0;
+ border-radius: 10px;
+ font-family: 'Orbitron', sans-serif;
+ font-weight: bold;
+ cursor: pointer;
+}
+
+button:hover {
+ background: #a6ff4d;
+}
+
+.result {
+ display: none;
+ margin-top: 20px;
+ padding: 15px;
+ background: rgba(0,0,0,.65);
+ border: 1px solid #39ff14;
+ border-radius: 12px;
+}
+
+.section-title {
+ color: #a6ff4d;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 14px;
+ margin: 20px 0 8px;
+}
+
+.value {
+ display: flex;
+ justify-content: space-between;
+ gap: 10px;
+ padding: 12px;
+ border-bottom: 1px solid #333;
+ font-size: 17px;
+}
+
+.value b {
+ color: #39ff14;
+ font-family: 'Orbitron', sans-serif;
+}
+
+.extra-box {
+ margin-top: 12px;
+ padding: 16px;
+ border: 1px solid #39ff14;
+ border-radius: 10px;
+ background: #101a12;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+.extra-box span {
+ color: #ddd;
+ font-size: 17px;
+}
+
+.extra-box b {
+ color: #a6ff4d;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 20px;
+}
+
+.copy {
+ background: #a6ff4d;
+}
+
+.back {
+ background: #202b22;
+ color: white;
+ border: 1px solid #39ff14;
+}
+
+.small {
+ font-size: 12px;
+ color: #aaa;
+}
+
+@media(max-width:600px) {
+ body {
+  padding: 8px;
+ }
+
+ .app {
+  padding: 16px;
+ }
+
+ .characters img {
+  width: 48%;
+  height: 55vh;
+  opacity: .45;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<!-- KEEP BOTH IMAGE FILES IN THE SAME FOLDER -->
+<div class="characters">
+ <img class="alok" src="alok.png" alt="Alok">
+ <img class="hayato" src="hayato.png" alt="Hayato">
+</div>
+
+<div class="app">
+
+<h1>BRAZIL SENSI PRO</h1>
+
+<p class="india-text">
+ FREE FIRE INDIA SENSITIVITY GENERATOR
+</p>
+
+<div id="setup">
+
+<label>Mobile Model</label>
+<input id="phone" list="phones"
+ placeholder="Enter your mobile model">
+
+<datalist id="phones">
+ <option value="iQOO Z9 5G">
+ <option value="iQOO Neo 9 Pro">
+ <option value="OnePlus Nord CE 4">
+ <option value="OnePlus 12R">
+ <option value="Redmi Note 13 5G">
+ <option value="POCO X6 Pro">
+ <option value="Realme GT 6T">
+ <option value="Samsung Galaxy M35">
+ <option value="Vivo T3 5G">
+ <option value="Oppo F27 Pro+">
+</datalist>
+
+<label>RAM</label>
+<select id="ram">
+ <option value="4">4 GB</option>
+ <option value="6">6 GB</option>
+ <option value="8">8 GB</option>
+ <option value="12">12 GB</option>
+ <option value="16">16 GB</option>
+</select>
+
+<label>Refresh Rate</label>
+<select id="hz">
+ <option value="60">60 Hz</option>
+ <option value="90">90 Hz</option>
+ <option value="120">120 Hz</option>
+ <option value="144">144 Hz</option>
+</select>
+
+<label>Play Style</label>
+<select id="style">
+ <option value="balanced">Balanced</option>
+ <option value="rush">Rush / Close Range</option>
+ <option value="precise">Long Range</option>
+</select>
+
+<label>Touch Response</label>
+<select id="touch">
+ <option value="normal">Normal</option>
+ <option value="high">High</option>
+</select>
+
+<button onclick="generate()">
+ GENERATE SENSITIVITY
+</button>
+
+</div>
+
+<div class="result" id="result">
+
+<h2>Your Headshot Settings</h2>
+<p id="device"></p>
+
+<div class="section-title">SENSITIVITY SETTINGS</div>
+<div id="values"></div>
+
+<div class="section-title">FIRE BUTTON SIZE</div>
+<div class="extra-box">
+ <span>Fire Button Size</span>
+ <b id="fireValue">48</b>
+</div>
+
+<div class="section-title">DPI RECOMMENDATION</div>
+<div class="extra-box">
+ <span>Recommended DPI</span>
+ <b id="dpiValue">420</b>
+</div>
+
+<button class="copy" onclick="copySettings()">
+ COPY ALL SETTINGS
+</button>
+
+<button class="back" onclick="back()">
+ BACK
+</button>
+
+</div>
+
+<p class="small">
+ BRAZIL SENSI PRO • Fan-made settings helper
+</p>
+
+</div>
+
+<script>
+let settings = {};
+let fireSize = 48;
+let dpi = 420;
+
+function generate() {
+
+ const ram = +document.getElementById("ram").value;
+ const hz = +document.getElementById("hz").value;
+ const style = document.getElementById("style").value;
+ const touch = document.getElementById("touch").value;
+
+ const phone =
+  document.getElementById("phone").value.trim()
+  || "My Device";
+
+ let base = ram <= 4 ? 0 :
+            ram <= 6 ? 2 :
+            ram <= 8 ? 4 : 6;
+
+ base += hz >= 120 ? 4 : hz >= 90 ? 2 : 0;
+
+ if (touch === "high") {
+  base += 2;
+ }
+
+ settings = {
+  "General": Math.min(200, 186 + base),
+  "Red Dot": Math.min(200, 181 + base),
+  "2x Scope": Math.min(200, 175 + base),
+  "4x Scope": Math.min(200, 164 + base),
+  "Sniper Scope": 91 + Math.floor(base / 2),
+  "Free Look": 148 + base
+ };
+
+ fireSize = style === "rush" ? 55 :
+            style === "precise" ? 43 : 48;
+
+ dpi = touch === "high" ? 440 : 420;
+
+ if (style === "rush") {
+  settings.General = Math.min(200, settings.General + 5);
+  settings["Red Dot"] = Math.min(200, settings["Red Dot"] + 4);
+ }
+
+ if (style === "precise") {
+  settings.General -= 7;
+  settings["Red Dot"] -= 8;
+ }
+
+ let output = "";
+
+ for (let key in settings) {
+  output += `
+   <div class="value">
+    <span>${key}</span>
+    <b>${settings[key]}</b>
+   </div>
+  `;
+ }
+
+ document.getElementById("values").innerHTML = output;
+
+ document.getElementById("device").textContent =
+  phone + " • " + ram + " GB RAM • " + hz + " Hz";
+
+ document.getElementById("fireValue").textContent = fireSize;
+ document.getElementById("dpiValue").textContent = dpi;
+
+ document.getElementById("setup").style.display = "none";
+ document.getElementById("result").style.display = "block";
+
+ window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function copySettings() {
+
+ let text = "BRAZIL SENSI PRO\n";
+
+ for (let key in settings) {
+  text += key + ": " + settings[key] + "\n";
+ }
+
+ text += "Fire Button Size: " + fireSize + "\n";
+ text += "DPI Recommendation: " + dpi + "\n";
+
+ if (navigator.clipboard && window.isSecureContext) {
+  navigator.clipboard.writeText(text)
+   .then(() => alert("Settings Copied!"))
+   .catch(() => fallbackCopy(text));
+ } else {
+  fallbackCopy(text);
+ }
+}
+
+function fallbackCopy(text) {
+ const area = document.createElement("textarea");
+ area.value = text;
+ document.body.appendChild(area);
+ area.select();
+ document.execCommand("copy");
+ area.remove();
+ alert("Settings Copied!");
+}
+
+function back() {
+ document.getElementById("result").style.display = "none";
+ document.getElementById("setup").style.display = "block";
+ window.scrollTo({top:0, behavior:"smooth"});
+}
+</script>
+
+</body>
+</html>
